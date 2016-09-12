@@ -1,0 +1,124 @@
+EDA Netlist Writer report for CPUTop
+Mon May 16 23:14:34 2016
+Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Standard Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. EDA Netlist Writer Summary
+  3. Simulation Settings
+  4. Simulation Generated Files
+  5. EDA Netlist Writer Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2016 Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus Prime License Agreement,
+the Altera MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Altera and sold by Altera or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
+
+
+
++-------------------------------------------------------------------+
+; EDA Netlist Writer Summary                                        ;
++---------------------------+---------------------------------------+
+; EDA Netlist Writer Status ; Successful - Mon May 16 23:14:34 2016 ;
+; Revision Name             ; CPUTop                                ;
+; Top-level Entity Name     ; CPUTop                                ;
+; Family                    ; Cyclone V                             ;
+; Simulation Files Creation ; Successful                            ;
++---------------------------+---------------------------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Simulation Settings                                                                                                           ;
++---------------------------------------------------------------------------------------------------+---------------------------+
+; Option                                                                                            ; Setting                   ;
++---------------------------------------------------------------------------------------------------+---------------------------+
+; Tool Name                                                                                         ; ModelSim-Altera (Verilog) ;
+; Generate functional simulation netlist                                                            ; Off                       ;
+; Time scale                                                                                        ; 1 ps                      ;
+; Truncate long hierarchy paths                                                                     ; Off                       ;
+; Map illegal HDL characters                                                                        ; Off                       ;
+; Flatten buses into individual nodes                                                               ; Off                       ;
+; Maintain hierarchy                                                                                ; Off                       ;
+; Bring out device-wide set/reset signals as ports                                                  ; Off                       ;
+; Enable glitch filtering                                                                           ; Off                       ;
+; Do not write top level VHDL entity                                                                ; Off                       ;
+; Disable detection of setup and hold time violations in the input registers of bi-directional pins ; Off                       ;
+; Architecture name in VHDL output netlist                                                          ; structure                 ;
+; Generate third-party EDA tool command script for RTL functional simulation                        ; Off                       ;
+; Generate third-party EDA tool command script for gate-level simulation                            ; Off                       ;
++---------------------------------------------------------------------------------------------------+---------------------------+
+
+
++-----------------------------------------------+
+; Simulation Generated Files                    ;
++-----------------------------------------------+
+; Generated Files                               ;
++-----------------------------------------------+
+; C:/suix2/CPUTop/simulation/modelsim/CPUTop.vo ;
++-----------------------------------------------+
+
+
++-----------------------------+
+; EDA Netlist Writer Messages ;
++-----------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime EDA Netlist Writer
+    Info: Version 16.0.0 Build 211 04/27/2016 SJ Standard Edition
+    Info: Processing started: Mon May 16 23:14:25 2016
+Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off CPUTop -c CPUTop
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Warning (10905): Generated the EDA functional simulation netlist because it is the only supported netlist type for this device.
+Info (204001): Port "hex[0][0]" is changed into "hex_0_0" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[0][1]" is changed into "hex_0_1" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[0][2]" is changed into "hex_0_2" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[0][3]" is changed into "hex_0_3" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[0][4]" is changed into "hex_0_4" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[0][5]" is changed into "hex_0_5" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[0][6]" is changed into "hex_0_6" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[1][0]" is changed into "hex_1_0" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[1][1]" is changed into "hex_1_1" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[1][2]" is changed into "hex_1_2" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[1][3]" is changed into "hex_1_3" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[1][4]" is changed into "hex_1_4" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[1][5]" is changed into "hex_1_5" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[1][6]" is changed into "hex_1_6" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[2][0]" is changed into "hex_2_0" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[2][1]" is changed into "hex_2_1" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[2][2]" is changed into "hex_2_2" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[2][3]" is changed into "hex_2_3" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[2][4]" is changed into "hex_2_4" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[2][5]" is changed into "hex_2_5" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[2][6]" is changed into "hex_2_6" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[3][0]" is changed into "hex_3_0" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[3][1]" is changed into "hex_3_1" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[3][2]" is changed into "hex_3_2" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[3][3]" is changed into "hex_3_3" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[3][4]" is changed into "hex_3_4" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[3][5]" is changed into "hex_3_5" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204001): Port "hex[3][6]" is changed into "hex_3_6" because it's a member of 2-D array port "hex" File: C:/suix2/CPUTop/CPUTop.sv Line: 1
+Info (204019): Generated file CPUTop.vo in folder "C:/suix2/CPUTop/simulation/modelsim/" for EDA simulation tool
+Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 2 warnings
+    Info: Peak virtual memory: 1040 megabytes
+    Info: Processing ended: Mon May 16 23:14:34 2016
+    Info: Elapsed time: 00:00:09
+    Info: Total CPU time (on all processors): 00:00:09
+
+

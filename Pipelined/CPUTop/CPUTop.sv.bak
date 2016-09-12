@@ -1,0 +1,307 @@
+module CPUTop();
+
+endmodule
+
+module instructionMem(dataout, datain, addr, IMR);
+	output [31:0] dataout;
+	input [31:0] datain;
+	input [6:0] addr;
+	input IMR;
+	reg [31:0] mem [127:0];
+	
+	assign dataout=IMR? mem[addr]: 32'hzzzzzzzz;
+	
+	always
+		if(~IMR)
+			mem[addr]=datain;
+endmodule
+
+module PC(IMA, addr, clk, rst);
+	output [6:0] IMA;
+	input [6:0] addr;
+	input clk, rst;
+	
+	wire [6:0] qBar;
+	
+	DFlipFlop dffs[6:0](IMA, qBar, addr, clk, rst);
+endmodule
+
+module Increment(out, in);
+	output [6:0] out;
+	input [6:0] in;
+	
+	wire [6:0] C;
+	wire G;
+	
+	parameter GND=0;
+	
+	assign out=in^C^7'b1;
+	
+	assign G=in[0];
+	
+	assign C[0]=GND;
+	assign C[1]=G;
+	assign C[2]=G & in[1];
+	assign C[3]=G & in[1] & in[2];
+	assign C[4]=G & in[1] & in[2] & in[3];
+	assign C[5]=G & in[1] & in[2] & in[3] & in[4];
+	assign C[6]=G & in[1] & in[2] & in[3] & in[4] & in[5];
+endmodule
+
+module instDecoder(ALUFS, regWrite, dataInMuxSel, dataOutMuxSel, branchMuxSel, noe, rnw, 
+							marload, mdrloadbus, mdrloadram, opcode, constbit, zero, overflow, 
+							carryout, negative, clk);
+	output [2:0] ALUFS;
+	output regWrite, dataInMuxSel, dataOutMuxSel, branchMuxSel, noe, rnw;
+	output marload, mdrloadbus, mdrloadram;
+	input [3:0] opcode;
+	input constbit, clk;
+	
+	// TODO
+	assign ALUFS=;
+	assign regWrite=~clk;
+	assign dataInMuxSel=constbit;
+	// Write to reg / read from SRAM at LW
+	assign dataOutMuxSel=opcode[3] & ~opcode[2] & ~opcode[1] & ~opcode[0];
+	// TODO
+	assign branchMuxSel=;
+	// Access SRAM at LW / SW
+	assign marload=(opcode[3] & ~opcode[2] & ~opcode[1] & ~opcode[0])|(opcode[3] & ~opcode[2] & ~opcode[1] & opcode[0]);
+	// Write to reg / read from SRAM at LW
+	// Write to SRAM at SW
+	assign noe=~(opcode[3] & ~opcode[2] & ~opcode[1] & ~opcode[0]);
+	assign rnw=opcode[3] & ~opcode[2] & ~opcode[1] & ~opcode[0];
+	assign mdrlaodbus=~(opcode[3] & ~opcode[2] & ~opcode[1] & ~opcode[0]);
+	assign mdrloadram=opcode[3] & ~opcode[2] & ~opcode[1] & ~opcode[0];
+	
+endmodule
+
+//////////////register file/////////////////
+
+module RegisterFile(R1RD, R2RD, R1RS, R2RS, WRS, WD, WE);
+	output [31:0] R1RD, R2RD;
+	input [4:0] R1RS, R2RS, WRS;
+	input [31:0] WD;
+	input WE;
+	
+	wire [31:0] decoder_out, regclk;
+	wire [31:0]q[31:0];
+	wire [31:0]qBar[31:0];
+	
+	parameter regrst=32'hFFFFFFFF;
+	
+	// write
+	decoder5_32 mydecoder(decoder_out, WRS);
+	and andn[31:0](regclk, decoder_out, WE);
+	reg32 myreg[31:0](q, qBar, WD, regclk, regrst);
+	
+	// read
+	mux1024_32 mux1(R1RD, q, R1RS, WE);
+	mux1024_32 mux2(R2RD, q, R2RS, WE);
+	
+endmodule
+
+module decoder5_32(out, in);
+	output [31:0] out;
+	input [4:0] in;
+	assign out=31'b1<<in;
+endmodule
+
+module mux1024_32(out, in, sel, rst);
+	output [31:0] out;
+	input [31:0] in [31:0];
+	input [4:0] sel;
+	input rst;
+	assign out=(!rst)? ((sel==0)? 32'h0: in[sel]):32'hzzzzzzzz;
+endmodule
+
+module reg32(q, qBar, D, clk, rst);
+	input [31:0] D;
+	input clk, rst;
+	output [31:0] q, qBar;
+	DFlipFlop mydff[31:0](q, qBar, D, clk, rst);
+endmodule
+
+module mux2_1(out, in0, in1, sel);
+	output out;
+	input in0, in1, sel;
+	assign out=sel? in1: in0;
+endmodule
+
+module DFlipFlop(q, qBar, D, clk, rst);
+	input D, clk, rst;
+	output q, qBar;
+	reg q;
+	not n1 (qBar, q);
+	always@ (negedge rst or posedge clk)
+	begin
+		if(!rst)
+			q = 0;
+		else
+			q = D;
+	end
+endmodule
+
+////////////////////////////////////////////////////////
+	
+module sraminner(data, address,noe,rnw);
+  
+  inout [15:0] data;
+  
+  input [10:0] address;
+  input noe,rnw;
+  
+  reg [15:0] memory [20:0];
+  reg [15:0] data_out;
+  
+  assign data = (!noe && rnw) ? data_out:16'bzzzzzzzzzzzzzzzz;
+  
+  always
+	begin
+		if(!noe && rnw) //read
+			data_out = memory[address];
+		
+		if(noe && !rnw) //write
+			memory[address] = data;
+  
+	end
+endmodule
+
+module mar(addrout, addrin, load);
+	output reg [10:0] addrout;
+	input [10:0] addrin;
+	input load;
+	
+	always @(posedge load)
+	begin
+		if(load)
+			addrout=addrin;
+	end
+endmodule
+
+module mdr(databus, dataram, loadbus, loadram, noe, rnw);
+	inout [15:0] databus;
+	inout [15:0] dataram;
+	input loadbus, loadram, noe, rnw;
+	
+	reg [15:0] data;
+	
+	assign databus=(!noe && rnw)? data:16'bzzzzzzzzzzzzzzzz;
+	assign dataram=(noe || !rnw)? data:16'bzzzzzzzzzzzzzzzz;
+	
+	always
+	begin
+		if(loadram)
+			data=dataram;
+		else if(loadbus)
+			data=databus;
+	end
+endmodule
+
+module ALU(result, zero, overflow, carryout, negative, busa, busb, control);
+	output [15:0] result;
+	output zero, overflow, carryout, negative;
+	input [15:0] busa, busb;
+	input [2:0] control;
+	wire[15:0] tempres [7:0];
+	
+///////////////////////////////////add & subtraction/////////////////
+	wire[15:0] newbusb;
+	wire[15:0] calculation;
+	
+	assign newbusb = control[1]? ~busb : busb;
+	
+	assign tempres[1] = calculation;
+	assign tempres[2] = calculation;
+	AdderSubtractor addsub(calculation,CO,busa,newbusb,control[1]);
+	
+////////////////////////////////////and or xor lst//////////////////////////////////////////////
+	assign tempres[3]=busa & busb;
+	assign tempres[4]=busa | busb;
+	assign tempres[5]=busa ^ busb;
+	func_slt funcslt(tempres[6],busa[15],busb[15],calculation[15]);
+	Shifter shif(tempres[7], busa, busb);
+
+//////////////////////////////////////////////////////////////////	
+	
+	assign result = tempres[control];
+	
+/////////////////////four flags///////////////////////////
+	assign zero=(result==0)? 1: 0;
+	assign negative = result[15];
+	assign overflow_a = (~busa[15] & ~busb[15] & calculation[15]) | (busa[15] & busb[15] & ~calculation[15]);
+	assign overflow_s = (~busa[15] & busb[15] & calculation[15]) | (busa[15] & ~busb[15] & ~calculation[15]);
+	assign overflow=control[1]? overflow_s: overflow_a;
+	assign carryout = (control==1 | control==2)? CO: 0;
+
+//////////////////////////////////////////////////////
+
+endmodule
+
+module AdderSubtractor(out, CO, A, B, CI);
+	output [15:0] out;
+	output CO;
+	input [15:0] A, B;
+	input CI;
+	
+	wire [15:0] C, P, G;
+	
+	assign out=A^B^C;
+	
+	assign G=A & B;
+	assign P=A | B;
+	
+	assign C[0]=CI;
+	assign C[1]=G[0] | (C[0] & P[0]);
+	assign C[2]=G[1] | (G[0] & P[1]) | (C[0] & P[0] & P[1]);
+	assign C[3]=G[2] | (G[1] & P[2]) | (G[0] & P[1] & P[2]) | (C[0] & P[0] & P[1] & P[2]);
+	assign C[4]=G[3] | (G[2] & P[3]) | (G[1] & P[2] & P[3]) | (G[0] & P[1] & P[2] & P[3]) | (C[0] & P[0] & P[1] & P[2] & P[3]);
+	assign C[5]=G[4] | (G[3] & P[4]) | (G[2] & P[3] & P[4]) | (G[1] & P[2] & P[3] & P[4]) | (G[0] & P[1] & P[2] & P[3] & P[4]) | (C[0] & P[0] & P[1] & P[2] & P[3] & P[4]);
+	assign C[6]=G[5] | (G[4] & P[5]) | (G[3] & P[4] & P[5]) | (G[2] & P[3] & P[4] & P[5]) | (G[1] & P[2] & P[3] & P[4] & P[5]) | (G[0] & P[1] & P[2] & P[3] & P[4] & P[5]) | (C[0] & P[0] & P[1] & P[2] & P[3] & P[4] & P[5]);
+	assign C[7]=G[6] | (G[5] & P[6]) | (G[4] & P[5] & P[6]) | (G[3] & P[4] & P[5] & P[6]) | (G[2] & P[3] & P[4] & P[5] & P[6]) | (G[1] & P[2] & P[3] & P[4] & P[5] & P[6]) | (G[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6]) | (C[0] & P[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6]);
+	assign C[8]=G[7] | (G[6] & P[7]) | (G[5] & P[6] & P[7]) | (G[4] & P[5] & P[6] & P[7]) | (G[3] & P[4] & P[5] & P[6] & P[7]) | (G[2] & P[3] & P[4] & P[5] & P[6] & P[7]) | (G[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7]) | (G[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7]) | (C[0] & P[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7]);
+	assign C[9]=G[8] | (G[7] & P[8]) | (G[6] & P[7] & P[8]) | (G[5] & P[6] & P[7] & P[8]) | (G[4] & P[5] & P[6] & P[7] & P[8]) | (G[3] & P[4] & P[5] & P[6] & P[7] & P[8]) | (G[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8]) | (G[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8]) | (G[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8]) | (C[0] & P[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8]);
+	assign C[10]=G[9] | (G[8] & P[9]) | (G[7] & P[8] & P[9]) | (G[6] & P[7] & P[8] & P[9]) | (G[5] & P[6] & P[7] & P[8] & P[9]) | (G[4] & P[5] & P[6] & P[7] & P[8] & P[9]) | 	(G[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9]) | (G[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9]) | (G[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9]) | (G[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9]) | (C[0] & P[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9]);
+	assign C[11]=G[10] | (G[9] & P[10]) | (G[8] & P[9] & P[10]) | (G[7] & P[8] & P[9] & P[10]) | (G[6] & P[7] & P[8] & P[9] & P[10]) | (G[5] & P[6] & P[7] & P[8] & P[9] & P[10]) | (G[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10]) | (G[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10]) | (G[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10]) | (G[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10]) | (G[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10]) | (C[0] & P[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10]);
+	assign C[12]=G[11] | (G[10] & P[11]) | (G[9] & P[10] & P[11]) | (G[8] & P[9] & P[10] & P[11]) | (G[7] & P[8] & P[9] & P[10] & P[11]) | (G[6] & P[7] & P[8] & P[9] & P[10] & P[11]) | (G[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11]) | (G[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11]) | (G[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11]) | (G[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11]) | (G[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11]) | (G[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11]) | (C[0] & P[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11]);
+	assign C[13]=G[12] | (G[11] & P[12]) | (G[10] & P[11] & P[12]) | (G[9] & P[10] & P[11] & P[12]) | (G[8] & P[9] & P[10] & P[11] & P[12]) | (G[7] & P[8] & P[9] & P[10] & P[11] & P[12]) | (G[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12]) | (G[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12]) | (G[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12]) | (G[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12]) | (G[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12]) | (G[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12]) | (G[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12]) | (C[0] & P[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12]);
+	assign C[14]=G[13] | (G[12] & P[13]) | (G[11] & P[12] & P[13]) | (G[10] & P[11] & P[12] & P[13]) | (G[9] & P[10] & P[11] & P[12] & P[13]) | (G[8] & P[9] & P[10] & P[11] & P[12] & P[13]) | (G[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13]) | (G[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13]) | (G[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13]) | (G[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13]) | (G[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13]) | (G[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13]) | (G[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13]) | (G[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13]) | (C[0] & P[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13]);
+	assign C[15]=G[14] | (G[13] & P[14]) | (G[12] & P[13] & P[14]) | (G[11] & P[12] & P[13] & P[14]) | (G[10] & P[11] & P[12] & P[13] & P[14]) | (G[9] & P[10] & P[11] & P[12] & P[13] & P[14]) | (G[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14]) | (G[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14]) | (G[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14]) | (G[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14]) | (G[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14]) | (G[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14]) | (G[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14]) | (G[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14]) | (G[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14]) | (C[0] & P[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14]);
+	assign CO=G[15] | (G[14] & P[15]) | (G[13] & P[14] & P[15]) | (G[12] & P[13] & P[14] & P[15]) | (G[11] & P[12] & P[13] & P[14] & P[15]) | (G[10] & P[11] & P[12] & P[13] & P[14] & P[15]) | (G[9] & P[10] & P[11] & P[12] & P[13] & P[14] & P[15]) | (G[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14] & P[15]) | (G[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14] & P[15]) | (G[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14] & P[15]) | (G[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14] & P[15]) | (G[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14] & P[15]) | (G[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14] & P[15]) | (G[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14] & P[15]) | (G[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14] & P[15]) | (G[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14] & P[15]) | (C[0] & P[0] & P[1] & P[2] & P[3] & P[4] & P[5] & P[6] & P[7] & P[8] & P[9] & P[10] & P[11] & P[12] & P[13] & P[14] & P[15]);
+	
+endmodule
+
+module func_slt (out,num1,num2,calculation);
+	output out;
+	input num1,num2;
+	input calculation;
+	
+	wire situation1 = num1 & ~num2; // busa is negative and busb is positive
+	wire situation2 = num1 & num2 & calculation; //except for situation 1, two negative numbers and the subtraction result is still negative
+	wire situation3 = ~num1 & ~num2 & calculation; //except for situation 1, two positive numbers and the result is negative
+	
+	assign out = (situation1 | situation2 | situation3)? 1: 0;
+endmodule
+
+module Shifter(out, in, sel);
+	output [15:0] out;
+	input [15:0] in;
+	input [1:0] sel;
+	
+	wire [15:0] out_L1, in_L1, in_L2;
+	
+	parameter GND=0;
+	
+	assign in_L1[0]=GND;
+	assign in_L1[15:1]=in[14:0];
+	
+	assign in_L2[1:0]=GND;
+	assign in_L2[15:2]=out_L1[13:0];
+	
+	// first level
+	assign out_L1=sel[0]? in_L1: in;
+	
+	// second level
+	assign out=sel[1]? in_L2: out_L1;
+	
+endmodule

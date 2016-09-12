@@ -1,0 +1,104 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2016 Altera Corporation. All rights reserved.
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, the Altera Quartus Prime License Agreement,
+# the Altera MegaCore Function License Agreement, or other 
+# applicable license agreement, including, without limitation, 
+# that your use is for the sole purpose of programming logic 
+# devices manufactured by Altera and sold by Altera or its 
+# authorized distributors.  Please refer to the applicable 
+# agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus Prime
+# Version 16.0.0 Build 211 04/27/2016 SJ Standard Edition
+# Date created = 19:24:19  May 15, 2016
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		CPUTop_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus Prime software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSEMA5F31C6
+set_global_assignment -name TOP_LEVEL_ENTITY CPUTop
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 16.0.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "19:24:19  MAY 15, 2016"
+set_global_assignment -name LAST_QUARTUS_VERSION 15.1.1
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 256
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
+set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_location_assignment PIN_AF14 -to clk
+set_location_assignment PIN_Y21 -to IMR
+set_location_assignment PIN_AA14 -to rst
+set_location_assignment PIN_W21 -to cpuout[8]
+set_location_assignment PIN_W20 -to cpuout[7]
+set_location_assignment PIN_Y19 -to cpuout[6]
+set_location_assignment PIN_W19 -to cpuout[5]
+set_location_assignment PIN_W17 -to cpuout[4]
+set_location_assignment PIN_V18 -to cpuout[3]
+set_location_assignment PIN_V17 -to cpuout[2]
+set_location_assignment PIN_W16 -to cpuout[1]
+set_location_assignment PIN_V16 -to cpuout[0]
+set_location_assignment PIN_AA15 -to pcreset
+set_location_assignment PIN_AE26 -to hex[0][0]
+set_location_assignment PIN_AE27 -to hex[0][1]
+set_location_assignment PIN_AE28 -to hex[0][2]
+set_location_assignment PIN_AG27 -to hex[0][3]
+set_location_assignment PIN_AF28 -to hex[0][4]
+set_location_assignment PIN_AG28 -to hex[0][5]
+set_location_assignment PIN_AH28 -to hex[0][6]
+set_location_assignment PIN_AJ29 -to hex[1][0]
+set_location_assignment PIN_AH29 -to hex[1][1]
+set_location_assignment PIN_AH30 -to hex[1][2]
+set_location_assignment PIN_AG30 -to hex[1][3]
+set_location_assignment PIN_AF29 -to hex[1][4]
+set_location_assignment PIN_AF30 -to hex[1][5]
+set_location_assignment PIN_AD27 -to hex[1][6]
+set_location_assignment PIN_AB23 -to hex[2][0]
+set_location_assignment PIN_AE29 -to hex[2][1]
+set_location_assignment PIN_AD29 -to hex[2][2]
+set_location_assignment PIN_AC28 -to hex[2][3]
+set_location_assignment PIN_AD30 -to hex[2][4]
+set_location_assignment PIN_AC29 -to hex[2][5]
+set_location_assignment PIN_AC30 -to hex[2][6]
+set_location_assignment PIN_AD26 -to hex[3][0]
+set_location_assignment PIN_AC27 -to hex[3][1]
+set_location_assignment PIN_AD25 -to hex[3][2]
+set_location_assignment PIN_AC25 -to hex[3][3]
+set_location_assignment PIN_AB28 -to hex[3][4]
+set_location_assignment PIN_AB25 -to hex[3][5]
+set_location_assignment PIN_AB22 -to hex[3][6]
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
+set_global_assignment -name TEXT_FILE machineCode.txt
+set_global_assignment -name SYSTEMVERILOG_FILE CPUTop.sv
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

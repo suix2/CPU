@@ -1,0 +1,229 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1100mV 85C Model Setup 'tbase[23]'
+Slack : -12.606
+TNS   : -36462.304
+
+Type  : Slow 1100mV 85C Model Setup 'CPU:mycpu|DFlipFlop:ALUFSBuf[0]|q'
+Slack : -9.599
+TNS   : -30974.244
+
+Type  : Slow 1100mV 85C Model Setup 'CPU:mycpu|PC:mypc|DFlipFlop:dffs[0]|q'
+Slack : -6.151
+TNS   : -12860.752
+
+Type  : Slow 1100mV 85C Model Setup 'clk'
+Slack : -4.181
+TNS   : -30.559
+
+Type  : Slow 1100mV 85C Model Hold 'CPU:mycpu|PC:mypc|DFlipFlop:dffs[0]|q'
+Slack : -2.212
+TNS   : -4.405
+
+Type  : Slow 1100mV 85C Model Hold 'CPU:mycpu|DFlipFlop:ALUFSBuf[0]|q'
+Slack : -0.560
+TNS   : -7.060
+
+Type  : Slow 1100mV 85C Model Hold 'tbase[23]'
+Slack : 0.248
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'clk'
+Slack : 0.378
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Recovery 'tbase[23]'
+Slack : -2.128
+TNS   : -186.215
+
+Type  : Slow 1100mV 85C Model Removal 'tbase[23]'
+Slack : 0.854
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'CPU:mycpu|DFlipFlop:ALUFSBuf[0]|q'
+Slack : -4.177
+TNS   : -79142.752
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'CPU:mycpu|PC:mypc|DFlipFlop:dffs[0]|q'
+Slack : -0.867
+TNS   : -782.242
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'tbase[23]'
+Slack : -0.684
+TNS   : -332.548
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'clk'
+Slack : -0.413
+TNS   : -12.717
+
+Type  : Slow 1100mV 0C Model Setup 'tbase[23]'
+Slack : -12.396
+TNS   : -34733.855
+
+Type  : Slow 1100mV 0C Model Setup 'CPU:mycpu|DFlipFlop:ALUFSBuf[0]|q'
+Slack : -9.158
+TNS   : -29407.812
+
+Type  : Slow 1100mV 0C Model Setup 'CPU:mycpu|PC:mypc|DFlipFlop:dffs[0]|q'
+Slack : -5.840
+TNS   : -12270.746
+
+Type  : Slow 1100mV 0C Model Setup 'clk'
+Slack : -4.028
+TNS   : -32.044
+
+Type  : Slow 1100mV 0C Model Hold 'CPU:mycpu|PC:mypc|DFlipFlop:dffs[0]|q'
+Slack : -2.154
+TNS   : -4.373
+
+Type  : Slow 1100mV 0C Model Hold 'CPU:mycpu|DFlipFlop:ALUFSBuf[0]|q'
+Slack : -0.855
+TNS   : -56.569
+
+Type  : Slow 1100mV 0C Model Hold 'tbase[23]'
+Slack : 0.310
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Hold 'clk'
+Slack : 0.377
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Recovery 'tbase[23]'
+Slack : -1.998
+TNS   : -174.446
+
+Type  : Slow 1100mV 0C Model Removal 'tbase[23]'
+Slack : 0.775
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'CPU:mycpu|DFlipFlop:ALUFSBuf[0]|q'
+Slack : -4.047
+TNS   : -78103.003
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'CPU:mycpu|PC:mypc|DFlipFlop:dffs[0]|q'
+Slack : -0.771
+TNS   : -605.596
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'tbase[23]'
+Slack : -0.681
+TNS   : -322.687
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'clk'
+Slack : -0.416
+TNS   : -13.645
+
+Type  : Fast 1100mV 85C Model Setup 'tbase[23]'
+Slack : -8.386
+TNS   : -23660.013
+
+Type  : Fast 1100mV 85C Model Setup 'CPU:mycpu|DFlipFlop:ALUFSBuf[0]|q'
+Slack : -6.707
+TNS   : -20902.188
+
+Type  : Fast 1100mV 85C Model Setup 'CPU:mycpu|PC:mypc|DFlipFlop:dffs[0]|q'
+Slack : -3.948
+TNS   : -7909.212
+
+Type  : Fast 1100mV 85C Model Setup 'clk'
+Slack : -3.183
+TNS   : -9.596
+
+Type  : Fast 1100mV 85C Model Hold 'CPU:mycpu|PC:mypc|DFlipFlop:dffs[0]|q'
+Slack : -1.594
+TNS   : -4.537
+
+Type  : Fast 1100mV 85C Model Hold 'CPU:mycpu|DFlipFlop:ALUFSBuf[0]|q'
+Slack : -0.448
+TNS   : -16.052
+
+Type  : Fast 1100mV 85C Model Hold 'tbase[23]'
+Slack : -0.055
+TNS   : -0.055
+
+Type  : Fast 1100mV 85C Model Hold 'clk'
+Slack : 0.200
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Recovery 'tbase[23]'
+Slack : -1.322
+TNS   : -96.644
+
+Type  : Fast 1100mV 85C Model Removal 'tbase[23]'
+Slack : 0.369
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'CPU:mycpu|DFlipFlop:ALUFSBuf[0]|q'
+Slack : -2.683
+TNS   : -42541.612
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'CPU:mycpu|PC:mypc|DFlipFlop:dffs[0]|q'
+Slack : -0.768
+TNS   : -726.219
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'tbase[23]'
+Slack : -0.405
+TNS   : -43.218
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'clk'
+Slack : -0.396
+TNS   : -2.499
+
+Type  : Fast 1100mV 0C Model Setup 'tbase[23]'
+Slack : -7.224
+TNS   : -20314.760
+
+Type  : Fast 1100mV 0C Model Setup 'CPU:mycpu|DFlipFlop:ALUFSBuf[0]|q'
+Slack : -5.757
+TNS   : -18008.754
+
+Type  : Fast 1100mV 0C Model Setup 'CPU:mycpu|PC:mypc|DFlipFlop:dffs[0]|q'
+Slack : -3.398
+TNS   : -6750.905
+
+Type  : Fast 1100mV 0C Model Setup 'clk'
+Slack : -2.653
+TNS   : -8.500
+
+Type  : Fast 1100mV 0C Model Hold 'CPU:mycpu|PC:mypc|DFlipFlop:dffs[0]|q'
+Slack : -1.390
+TNS   : -4.056
+
+Type  : Fast 1100mV 0C Model Hold 'CPU:mycpu|DFlipFlop:ALUFSBuf[0]|q'
+Slack : -0.466
+TNS   : -32.577
+
+Type  : Fast 1100mV 0C Model Hold 'tbase[23]'
+Slack : -0.043
+TNS   : -0.043
+
+Type  : Fast 1100mV 0C Model Hold 'clk'
+Slack : 0.191
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Recovery 'tbase[23]'
+Slack : -1.094
+TNS   : -76.613
+
+Type  : Fast 1100mV 0C Model Removal 'tbase[23]'
+Slack : 0.301
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'CPU:mycpu|DFlipFlop:ALUFSBuf[0]|q'
+Slack : -2.257
+TNS   : -36505.415
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'CPU:mycpu|PC:mypc|DFlipFlop:dffs[0]|q'
+Slack : -0.494
+TNS   : -282.722
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'clk'
+Slack : -0.397
+TNS   : -2.505
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'tbase[23]'
+Slack : -0.298
+TNS   : -22.676
+
+------------------------------------------------------------
